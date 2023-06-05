@@ -1,15 +1,19 @@
 package com.example.worldledge
 
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.worldledge.databinding.ActivityMapsBinding
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
-import com.example.worldledge.databinding.ActivityMapsBinding
+import com.google.maps.android.data.geojson.GeoJsonLayer
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -39,10 +43,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
+        try {
+            // Apply custom map style
+            mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    this, R.raw.defaultmapstyle
+                )
+            )
+        } catch (e: Resources.NotFoundException) {
+            e.printStackTrace()
+        }
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        val sydney = LatLng(54.0919, 18.777)
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker Tczew"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        val layer = GeoJsonLayer(mMap, R.raw.world_1800, applicationContext)
+        layer.addLayerToMap()
     }
 }

@@ -46,7 +46,6 @@ dependencies {
     implementation coroutines
     implementation dagger
     implementation mapServices
-
     kapt daggerAnnotationProcessor
     runtimeOnly coroutinesRunTime
 

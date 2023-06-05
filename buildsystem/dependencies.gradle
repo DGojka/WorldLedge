@@ -5,6 +5,7 @@ ext {
     navigationVersion = "2.5.3"
     activityVersion = "1.6.1"
     appcompatVersion = "1.6.1"
+    mapUtilsVersion = "3.4.0"
 
     coreLibraries = [
             "androidx.activity:activity-ktx:$activityVersion",
@@ -54,7 +55,8 @@ ext {
     mapsServicesVersion = "18.1.0"
 
     mapServices = [
-            "com.google.android.gms:play-services-maps:$mapsServicesVersion"
+            "com.google.android.gms:play-services-maps:$mapsServicesVersion",
+            "com.google.maps.android:android-maps-utils:$mapUtilsVersion"
     ]
 
 }
