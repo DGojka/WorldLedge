@@ -1,10 +1,11 @@
 package com.example.worldledge
 
 import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.example.worldledge.databinding.ActivityMapsBinding
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.data.geojson.GeoJsonLayer
+import java.util.Random
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -30,6 +32,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        supportActionBar?.hide()
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        window.statusBarColor = Color.argb(50,0,0,0)
     }
 
     /**
@@ -53,12 +59,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         } catch (e: Resources.NotFoundException) {
             e.printStackTrace()
         }
+
+
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(54.0919, 18.777)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker Tczew"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
         val layer = GeoJsonLayer(mMap, R.raw.world_1800, applicationContext)
+        layer.defaultPolygonStyle.apply {
+            this.strokeColor = Color.BLACK
+            strokeWidth = 3f
+        }
+      /*  layer.features.forEach {
+            it.polygonStyle.apply {
+                fillColor = Color.RED
+            }
+        }*/
         layer.addLayerToMap()
+    }
+
+    private fun generateRandomColor(): Int {
+        val r = Random()
+        val red = r.nextInt(256)
+        val green = r.nextInt(256)
+        val blue = r.nextInt(256)
+
+        return Color.rgb(red, green, blue)
     }
 }
